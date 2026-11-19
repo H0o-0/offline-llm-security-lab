@@ -30,6 +30,7 @@ Add `--filter` to also score every response after the output filter ([`output_fi
 
 ## Findings
 Full report: [`reports/report-20261119-234012.md`](reports/report-20261119-234012.md) · 8 cases × 2 system prompts × 2 models.
+Filter run: [`reports/report-20261120-021544.md`](reports/report-20261120-021544.md) — 0/16 leaks on both models with `--filter`.
 
 | Model | Baseline leaks | Hardened leaks | Reduction |
 |---|---|---|---|
@@ -40,7 +41,8 @@ Full report: [`reports/report-20261119-234012.md`](reports/report-20261119-23401
 - **Most effective attack:** indirect injection through a retrieved document (RAG) — leaked on both models even with the hardened prompt. Untrusted-document tagging alone is not enough.
 - **Obfuscation:** translation and spaced-out output bypassed the baseline on both models; the hardened prompt stopped spacing but qwen2.5 still leaked via translation.
 - **Held everywhere:** direct override, base64 request and the authority / social-engineering case.
-- **Hardened prompt:** cut total leaks from 9/16 to 3/16 (−67%), but prompt-level defense does not close RAG injection — an output filter is needed (see Next steps).
+- **Hardened prompt:** cut total leaks from 9/16 to 3/16 (−67%), but prompt-level defense does not close RAG injection.
+- **Output filter:** added as a second layer (`--filter`). It blocks every leak the detector recognizes, including the RAG case that survived the hardened prompt. Limitation: it only catches known forms of the secret (plain, spaced, base64); a paraphrased or partially leaked secret would pass.
 
 ## Next steps
 - More cases from OWASP Top 10 for LLM Applications (LLM01 Prompt Injection, LLM07 System Prompt Leakage)
