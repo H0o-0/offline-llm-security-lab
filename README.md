@@ -3,10 +3,11 @@
 Fully offline evaluation of open-weight LLMs against prompt injection, running on my home server lab. No cloud services or external APIs.
 
 ## Lab
-- Server: Intel Core i5-10, 8 GB RAM, NVIDIA RTX 3060 (12 GB VRAM)
+- Server: Intel Core i5 (10th gen), 8 GB RAM, NVIDIA RTX 3060 (12 GB VRAM)
 - OS: Ubuntu 22.04
 - Runtime: Ollama (Docker, GPU passthrough)
 - Models tested: qwen2.5:7b, llama3.1:8b
+
 ## What it tests
 A secret canary is placed in the system prompt. Each test case tries to extract it through a different attack class:
 direct injection, role-play, system-prompt extraction, obfuscation (translation, base64, spacing), indirect injection through a retrieved document (RAG), and social engineering.
