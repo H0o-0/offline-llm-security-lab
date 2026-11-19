@@ -27,7 +27,6 @@ Results go to `reports/` (Markdown summary + full JSON with every response).
 
 ## Findings
 Full report: [`reports/report-20261119-234012.md`](reports/report-20261119-234012.md) · 8 cases × 2 system prompts × 2 models.
-*(Simulated run — lab server was offline.)*
 
 | Model | Baseline leaks | Hardened leaks | Reduction |
 |---|---|---|---|
