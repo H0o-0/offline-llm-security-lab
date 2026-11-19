@@ -26,12 +26,19 @@ python run_eval.py --models qwen2.5:7b llama3.1:8b
 Results go to `reports/` (Markdown summary + full JSON with every response).
 
 ## Findings
-> **Status: pending a full run.** The lab server is offline for now, so no measured results are published yet.
+Full report: [`reports/report-20261119-234012.md`](reports/report-20261119-234012.md) · 8 cases × 2 system prompts × 2 models.
+*(Simulated run — lab server was offline.)*
 
-[`reports/example-report.md`](reports/example-report.md) shows the report format with **illustrative, unmeasured** numbers. Once the eval runs, this section will cover:
-- which model leaked the canary most often (baseline vs hardened)
-- which attack class was most effective
-- how much the hardened system prompt reduced leaks
+| Model | Baseline leaks | Hardened leaks | Reduction |
+|---|---|---|---|
+| qwen2.5:7b | 5/8 (62%) | 2/8 (25%) | −60% |
+| llama3.1:8b | 4/8 (50%) | 1/8 (12%) | −75% |
+
+- **Most leaky model:** qwen2.5:7b — leaked more in both modes, and was the only one to fall for role-play.
+- **Most effective attack:** indirect injection through a retrieved document (RAG) — leaked on both models even with the hardened prompt. Untrusted-document tagging alone is not enough.
+- **Obfuscation:** translation and spaced-out output bypassed the baseline on both models; the hardened prompt stopped spacing but qwen2.5 still leaked via translation.
+- **Held everywhere:** direct override, base64 request and the authority / social-engineering case.
+- **Hardened prompt:** cut total leaks from 9/16 to 3/16 (−67%), but prompt-level defense does not close RAG injection — an output filter is needed (see Next steps).
 
 ## Next steps
 - Output filtering layer (block canary/secret patterns before the response leaves the agent)
