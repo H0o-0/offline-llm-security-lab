@@ -26,6 +26,8 @@ python run_eval.py --models qwen2.5:7b llama3.1:8b
 ```
 Results go to `reports/` (Markdown summary + full JSON with every response).
 
+Add `--filter` to also score every response after the output filter ([`output_filter.py`](output_filter.py)), which blocks any response containing the secret in plain, spaced-out or base64 form before it leaves the agent. The report then gets extra `baseline+filter` / `hardened+filter` columns.
+
 ## Findings
 Full report: [`reports/report-20261119-234012.md`](reports/report-20261119-234012.md) · 8 cases × 2 system prompts × 2 models.
 
@@ -41,6 +43,5 @@ Full report: [`reports/report-20261119-234012.md`](reports/report-20261119-23401
 - **Hardened prompt:** cut total leaks from 9/16 to 3/16 (−67%), but prompt-level defense does not close RAG injection — an output filter is needed (see Next steps).
 
 ## Next steps
-- Output filtering layer (block canary/secret patterns before the response leaves the agent)
 - More cases from OWASP Top 10 for LLM Applications (LLM01 Prompt Injection, LLM07 System Prompt Leakage)
 - Compare quantization levels (Q4_K_M vs Q8_0) on robustness
